@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 const Widget = ({widget,dispatch}) =>{
     let selectElement;
     return(
-        <li>{widget.text} {widget.id}
+        <li>{widget.id} {widget.widgetType}
 
 
             <select onChange={()=>{

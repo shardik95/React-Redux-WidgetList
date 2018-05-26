@@ -9,7 +9,7 @@ export const widgetReducer = (state = {
     switch (action.type){
 
         case 'SELECT_WIDGET_TYPE':
-            return {
+            let newState= {
                 widgets:state.widgets.filter(widget =>{
                     if(widget.id===action.id){
                         widget.widgetType=action.widgetType
@@ -17,6 +17,7 @@ export const widgetReducer = (state = {
                     return true;
                 })
             }
+            return JSON.parse(JSON.stringify(newState));
 
         case Constants.SAVE:
             fetch('http://localhost:8080/api/widget/save', {
