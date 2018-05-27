@@ -1,5 +1,5 @@
 import React,{Component} from "react";
-import {addWidgets, findAllWidgets, save} from "../actions";
+import {addWidgets, findAllWidgets, save,preview} from "../actions";
 import {WidgetContainer} from "../components/widget";
 import {connect} from "react-redux";
 
@@ -14,11 +14,12 @@ class WidgetList extends Component{
         return(
             <div>
                 <h1>Widget List {this.props.widgets.length}</h1>
-                <button onClick={this.props.save}>Save</button>
+                <button hidden={this.props.previewMode} onClick={this.props.save}>Save</button>
+                <button onClick={this.props.preview}>Preview</button>
                 <ul>
                     {
                         this.props.widgets.map((widget) => {
-                            return <WidgetContainer widget={widget} key={widget.id}/>
+                            return <WidgetContainer widget={widget} key={widget.id} preview={this.props.preview}/>
                         })
                     }
                 </ul>
@@ -32,7 +33,8 @@ class WidgetList extends Component{
 
 const stateToPropsMapper = (state) => (
     {
-        widgets:state.widgets
+        widgets:state.widgets,
+        previewMode:state.preview
     }
 )
 
@@ -40,7 +42,8 @@ const dispatcherToPropsMapper
     = dispatch => ({
     findAllWidgets: () => findAllWidgets(dispatch),
     addWidget: () => addWidgets(dispatch),
-    save: () => save(dispatch)
+    save: () => save(dispatch),
+    preview:()=>preview(dispatch)
 })
 
 export const App = connect(stateToPropsMapper,dispatcherToPropsMapper)(WidgetList)

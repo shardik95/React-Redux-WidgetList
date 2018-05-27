@@ -3,10 +3,34 @@
 import * as Constants from "../constants";
 
 export const widgetReducer = (state = {
-                           widgets:[]},
+                           widgets:[],preview:false},
                        action) => {
 
     switch (action.type){
+
+        case 'PREVIEW':return {
+            widgets:state.widgets,
+            preview:!state.preview
+        }
+
+        case 'headingTextChanged':return {
+            widgets:state.widgets.map(widget => {
+                if (widget.id===action.id){
+                    widget.text=action.text
+                }
+                return Object.assign({},widget);
+            })
+        }
+
+        case 'headingSizeChanged':
+            return {
+                widgets:state.widgets.map(widget => {
+                    if (widget.id===action.id){
+                        widget.size=action.size
+                    }
+                    return Object.assign({},widget);
+                })
+            }
 
         case 'SELECT_WIDGET_TYPE':
             let newState= {
@@ -41,7 +65,8 @@ export const widgetReducer = (state = {
                     {
                         text: 'New Widget',
                         id:state.widgets.length+1,
-                        widgetType:'Paragraph'
+                        widgetType:'Paragraph',
+                        size:'2'
                     }
                 ]
             }
